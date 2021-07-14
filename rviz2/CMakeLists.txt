@@ -62,7 +62,7 @@ if(TARGET Qt5::windeployqt)
     COMMAND set PATH=%PATH%$<SEMICOLON>${qt5_install_prefix}/bin
     COMMAND
     Qt5::windeployqt
-    --dir "${CMAKE_CURRENT_BINARY_DIR}/windeployqt"
+    --dir "${CMAKE_CURRENT_BINARY_DIR}/windeployqt" --no-libraries
     "$<TARGET_FILE_DIR:${PROJECT_NAME}>/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
   )
 
