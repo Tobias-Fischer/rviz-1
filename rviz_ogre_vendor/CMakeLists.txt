@@ -185,21 +185,26 @@ macro(build_ogre)
       -DOGRE_BUILD_COMPONENT_JAVA:BOOL=FALSE
       -DOGRE_BUILD_COMPONENT_CSHARP:BOOL=FALSE
       -DOGRE_BUILD_COMPONENT_BITES:BOOL=FALSE
+      -DOGRE_BUILD_PLUGIN_EXRCODEC=FALSE
+      -DOGRE_ENABLE_PRECOMPILED_HEADERS=0
       ${extra_cmake_args}
       -Wno-dev
     PATCH_COMMAND
       ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/pragma-patch.diff &&
-      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/fix-arm64.diff &&
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/0001-enable-pkg-config-for-Windows.patch &&
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/0002-osx-no-framework.patch &&
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/0003-clang11-fix.patch &&
+      ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/0004-fix-arm64.patch &&
       ${Patch_EXECUTABLE} -p1 -N < ${CMAKE_CURRENT_SOURCE_DIR}/relocatable.patch
     COMMAND
-      ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/FindFreetype.cmake ${CMAKE_CURRENT_BINARY_DIR}/ogre-v1.12.1-prefix/src/ogre-v1.12.1/CMake/Packages/FindFreetype.cmake
+      ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/FindFreetype.cmake ${CMAKE_CURRENT_BINARY_DIR}/ogre-v1.12.13-prefix/src/ogre-v1.12.13/CMake/Packages/FindFreetype.cmake
   )
 
   if(BUILDING_FREETYPE_LOCALLY)
-    add_dependencies(ogre-v1.12.1 freetype-2.8.1)
+    add_dependencies(ogre-v1.12.13 freetype-2.8.1)
   endif()
   if(BUILDING_ZLIB_LOCALLY)
-    add_dependencies(ogre-v1.12.1 zlib-1.2.11)
+    add_dependencies(ogre-v1.12.13 zlib-1.2.11)
   endif()
 
   # The external project will install to the build folder, but we'll install that on make install.
